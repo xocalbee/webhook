@@ -151,6 +151,8 @@ def handle_whatsapp_message(body):
     response = make_openai_request(message_body, message["from"])
     send_whatsapp_message(body, response)
 
+    
+
 
 # handle incoming webhook messages
 def handle_message(request):
@@ -181,6 +183,12 @@ def handle_message(request):
     except Exception as e:
         print(f"unknown error: {e}")
         return jsonify({"status": "error", "message": str(e)}), 500
+    
+def handle_msg(request):
+    # Parse Request body in json format
+    body = request.get_json()
+    print(f"request body: {body}")
+
 
 
 # Required webhook verifictaion for WhatsApp
@@ -220,7 +228,7 @@ def webhook():
     if request.method == "GET":
         return verify(request)
     elif request.method == "POST":
-        return handle_message(request)
+        return handle_msg(request)
 
 
 # Route to reset message log
